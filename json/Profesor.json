@@ -1,0 +1,15 @@
+{
+"idMaestro":1, 
+"Nombre": "Luis", 
+"Apellido": "Martinez",
+"Correo": "luisMar@espe.edu.ec",
+"Contraseña": "LuisMartinez"
+}
+
+{
+"idMaestro":2, 
+"Nombre": "Jessi", 
+"Apellido": "Luzuriaga",
+"Correo": "jessiLuzu@espe.edu.ec",
+"Contraseña": "JessiLuzuriaga"
+}
