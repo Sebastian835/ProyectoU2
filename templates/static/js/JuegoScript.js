@@ -31,6 +31,8 @@ function moverTopo() {
 
 moverTopo();
 
+function actualizar() { location.reload(true); }
+
 function cuentaRegresiva() {
     tiempoActual--;
     tiempoFaltante.textContent = tiempoActual;
@@ -38,7 +40,26 @@ function cuentaRegresiva() {
     if (tiempoActual === 0) {
         clearInterval(idTiempo);
         clearInterval(tiempoTopo);
-        alert("¡El tiempo ha terminado Atrapaste " + resultado + " topos!");
+        /*alert("¡El tiempo ha terminado Atrapaste " + resultado + " topos!");*/
+
+        if (resultado > 3) {
+            Swal.fire({
+                imageUrl: 'https://static.vecteezy.com/system/resources/previews/003/795/482/non_2x/collection-of-emoticon-icon-of-cute-star-cartoon-free-vector.jpg',
+                imageWidth: 400,
+                imageHeight: 300,
+                timer: 4000,
+                showConfirmButton: false,
+            });
+        } else {
+            Swal.fire({
+                imageUrl: 'https://img.freepik.com/vector-premium/estrella-dibujos-animados-color-amarillo-brillante-forma-redondeada-estilo-gris-ilustracion-botones-interfaz-usuario-coleccion-estrellas-premio_505956-270.jpg?w=2000',
+                imageWidth: 400,
+                imageHeight: 300,
+                timer: 4000,
+                showConfirmButton: false,
+            });
+        }
+
         const dict_values = {
             resultado
         }
@@ -50,6 +71,10 @@ function cuentaRegresiva() {
             data: JSON.stringify(s)
         });
     }
+
+
+    //Función para actualizar cada n segundos(n milisegundos)
+    setInterval("actualizar()", 40000);
 }
 
 let idTiempo = setInterval(cuentaRegresiva, 500);
