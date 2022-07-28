@@ -31,7 +31,10 @@ def home():
         preesccolar =request.form['preescolar'] 
         try:
             if(coleccionProfesor.find_one({'Correo':correo, 'Contraseña': contrase, 'Preescolar': preesccolar })):        #compara los datos ingresados con el registro
-                return redirect(url_for('Niño')) 
+                if(preesccolar=="Preescolar 1"):
+                    return redirect(url_for('Niño')) 
+                else:
+                    return redirect(url_for('NiñosB')) 
             else:
                 return redirect(url_for('home'))   
         except:
@@ -52,6 +55,12 @@ def Niño():
         except:
             return redirect(url_for('Niño'))
     return render_template("layouts/Niño.html")
+
+
+@app.route('/NiñosB' )        
+def NiñosB(): 
+    return render_template("layouts/NiñosB.html")
+
 
 
 @app.route('/Juego')        
