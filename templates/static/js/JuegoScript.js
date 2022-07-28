@@ -76,8 +76,6 @@ function cuentaRegresiva() {
             data: JSON.stringify(s)
         });
     }
-
-
     //Función para actualizar cada n segundos(n milisegundos)
     setInterval("actualizar()", 40000);
 }
