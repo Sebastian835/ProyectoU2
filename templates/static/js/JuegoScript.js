@@ -43,6 +43,10 @@ function cuentaRegresiva() {
         /*alert("¡El tiempo ha terminado Atrapaste " + resultado + " topos!");*/
 
         if (resultado > 3) {
+            const music = new Audio('templates/static/audio/niños.wav');
+            music.play();
+            music.loop = true;
+            music.playbackRate = 2;
             Swal.fire({
                 imageUrl: 'https://static.vecteezy.com/system/resources/previews/003/795/482/non_2x/collection-of-emoticon-icon-of-cute-star-cartoon-free-vector.jpg',
                 imageWidth: 400,
@@ -50,6 +54,7 @@ function cuentaRegresiva() {
                 timer: 4000,
                 showConfirmButton: false,
             });
+            music.pause();
         } else {
             Swal.fire({
                 imageUrl: 'https://img.freepik.com/vector-premium/estrella-dibujos-animados-color-amarillo-brillante-forma-redondeada-estilo-gris-ilustracion-botones-interfaz-usuario-coleccion-estrellas-premio_505956-270.jpg?w=2000',
