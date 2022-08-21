@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- bootstrap-->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <title>Escuela Patitos Felices</title>
+</head>
+
+<body>
+    <!-- Responsive navbar-->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #047cfc;">
+        <div class="container px-5">
+            <h3>
+                <a class="navbar-brand" href="/"><img src="/static/img/logo_pato.png" width="80px" height="50px">Insititucion Patitos Felices</a>
+            </h3>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <h5>
+                        <li class="nav-item"><a class="nav-link active" href="/loginAdmin">Administrador</a></li>
+                    </h5>
+                    <h5>
+                        <li class="nav-item"><a class="nav-link" href="/loginDocentes">Docentes</a></li>
+                    </h5>
+                    <h5>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Niños
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item"  href="/Niño">Paralelo A</a></li>
+                          <li><a class="dropdown-item" href="/NiñosB">Paralelo B</a></li>
+                        </ul>
+                      </li>
+                    </h5>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container px-4 px-lg-5">
+        <!-- Heading Row-->
+        <div class="row gx-4 gx-lg-5 align-items-center my-5">
+
+            <div class="col-lg-7">
+
+
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img src="/static/img/niños1.jpg" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="/static/img/niños2.jpg" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="/static/img/niños3.jpg" class="d-block w-100" alt="...">
+                      </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+
+            </div>
+
+            <div class="col-lg-5">
+                <center>
+                    <h1 class="font-weight-light">Insititucion Patitos Felices</h1>
+                </center>
+                <br>
+                <center>
+                    <p>Enseñamos con programas académicos y tecnológicos de vanguardia basados en la neurociencia desde sus diversas ramas, que nos han permitido conocer mejor el funcionamiento 
+                        encefálico nervioso en los procesos cognitivos, emocionales y ejecutivos, relacionados con el aprendizaje.
+                        Nuestro mejor libro de texto es el acompañamiento y trabajo cercano con cada uno de nuestros niños, 
+                        haciendo énfasis en que se sientan pertenecidos y reconocidos, en éste, su entorno escolar. Con este acercamiento, de tanto en tanto nos vamos encontrando, para alcanzar la máxima de la inteligencia emocional.
+
+                    </p>
+                </center>
+                <!--<center><a class="btn btn-primary" href="../Login">Inicia Sesion</a></center>-->
+                <!--Reccionara al login para su inicio de sesion-->
+            </div>
+        </div>
+        <br><br><br>
+            <!-- Call to Action-->
+        <div class="card text-white bg-secondary my-4 py-2 text-center">
+            <div class="card-body">
+                <p class="text-white m-0">“Puede que no sepas a dónde vas, pero siempre que abras las alas, el viento te llevará”.</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>

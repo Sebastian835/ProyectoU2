@@ -26,7 +26,26 @@ app._static_folder = os.path.abspath("templates/static/")                       
 def home():
     return render_template("layouts/home.html")
 
-@app.route('/loginDocentes', methods=['GET','POST'])         # Ruta principal 
+
+@app.route('/loginAdmin', methods=['GET','POST'])        
+def loginAdmin():
+
+    if(request.method == "POST"):
+        correo = request.form['email']          #obtencion de correo
+        contrase = request.form['password']         #obtencion de contraseña
+        try:
+            if(coleccionProfesor.find_one({'Correo':correo, 'Contraseña': contrase})):        #compara los datos ingresados con el registro     
+                return redirect(url_for('loginDocentes'))  
+            else:
+                return redirect(url_for('loginDocentes'))            #si no esta registrado redirecciona a la pagina principal
+        except:
+            return redirect(url_for('loginDocentes'))             #en caso de error redirecciona a la pagina principal
+
+    return render_template("layouts/loginAdmin.html")
+
+
+
+@app.route('/loginDocentes', methods=['GET','POST'])         
 def loginDocentes():
 
     if(request.method == "POST"):
@@ -79,7 +98,6 @@ def test():
     result = json.loads(output)     #convierte de json a diccionario de python
     print(result) # imprime el puntake
     return result
-
 
 
 #main del programa
