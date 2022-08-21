@@ -24,6 +24,10 @@ app._static_folder = os.path.abspath("templates/static/")                       
 
 @app.route('/', methods=['GET','POST'])         # Ruta principal 
 def home():
+    return render_template("layouts/home.html")
+
+@app.route('/loginDocentes', methods=['GET','POST'])         # Ruta principal 
+def loginDocentes():
 
     if(request.method == "POST"):
         correo = request.form['email']          #obtencion de correo
@@ -36,9 +40,9 @@ def home():
                 else:
                     return redirect(url_for('NiñosB'))  #si no al otro curso
             else:
-                return redirect(url_for('home'))            #si no esta registrado el profesor redirecciona a la pagina principal
+                return redirect(url_for('loginDocentes'))            #si no esta registrado el profesor redirecciona a la pagina principal
         except:
-            return redirect(url_for('home'))             #en caso de error redirecciona a la pagina principal
+            return redirect(url_for('loginDocentes'))             #en caso de error redirecciona a la pagina principal
 
     return render_template("layouts/loginDocente.html")
 
