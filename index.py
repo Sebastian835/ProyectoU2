@@ -35,14 +35,17 @@ def loginAdmin():
         contrase = request.form['password']         #obtencion de contraseña
         try:
             if(coleccionProfesor.find_one({'Correo':correo, 'Contraseña': contrase})):        #compara los datos ingresados con el registro     
-                return redirect(url_for('loginDocentes'))  
+                return redirect(url_for('administrador'))  
             else:
-                return redirect(url_for('loginDocentes'))            #si no esta registrado redirecciona a la pagina principal
+                return redirect(url_for('loginAdmin'))            #si no esta registrado redirecciona a la pagina principal
         except:
-            return redirect(url_for('loginDocentes'))             #en caso de error redirecciona a la pagina principal
+            return redirect(url_for('loginAdmin'))             #en caso de error redirecciona a la pagina principal
 
     return render_template("layouts/loginAdmin.html")
 
+@app.route('/administrador' )       
+def administrador():  
+    return render_template("layouts/administrador.html")    
 
 
 @app.route('/loginDocentes', methods=['GET','POST'])         
@@ -51,13 +54,17 @@ def loginDocentes():
     if(request.method == "POST"):
         correo = request.form['email']          #obtencion de correo
         contrase = request.form['password']         #obtencion de contraseña
-        preesccolar =request.form['preescolar']             #obtencion del preescolar
+        try:
+            preesccolar =request.form['preescolar']   #obtencion del preescolar
+        except:
+            return redirect(url_for('loginDocentes'))     
+                  
         try:
             if(coleccionProfesor.find_one({'Correo':correo, 'Contraseña': contrase, 'Preescolar': preesccolar })):        #compara los datos ingresados con el registro
-                if(preesccolar=="Preescolar 1"):        #si el preescolar es el curso 1:
-                    return redirect(url_for('Niño'))        #ingresa a la pagina niños
-                else:
-                    return redirect(url_for('NiñosB'))  #si no al otro curso
+                    if(preesccolar=="Preescolar 1"):        #si el preescolar es el curso 1:
+                        return redirect(url_for('Niño'))        #ingresa a la pagina niños
+                    else:
+                        return redirect(url_for('NiñosB'))  #si no al otro curso
             else:
                 return redirect(url_for('loginDocentes'))            #si no esta registrado el profesor redirecciona a la pagina principal
         except:
@@ -96,7 +103,7 @@ def Juego():    #funcion que renderiza el archivo juegos.html
 def test():
     output = request.get_json()
     result = json.loads(output)     #convierte de json a diccionario de python
-    print(result) # imprime el puntake
+    print(result) # imprime el puntaje
     return result
 
 

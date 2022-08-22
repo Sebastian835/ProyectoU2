@@ -89,3 +89,5 @@ function cuentaRegresiva() {
 }
 
 let idTiempo = setInterval(cuentaRegresiva, 500);
+
+
