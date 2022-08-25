@@ -68,7 +68,7 @@
                 aria-expanded="false" aria-controls="ElimnarAlumno">Elimnar Alumnos</button>
         </center>
     </p>
-    <div class="collapse multi-collapse" id="ElimnarDocente" >
+    <div class="collapse multi-collapse" id="ElimnarDocente">
         <div class="card card-body">
             <form>
                 <center>
@@ -78,12 +78,13 @@
                 <div class="form-outline mb-4">
                     <input type="text" id="registerName" class="form-control" placeholder="Nombre" />
                 </div>
-                <center><button type="submit" class="btn btn-primary btn-block mb-3" style="background-color: #8064A2">Elimnar</button></center>
+                <center><button type="submit" class="btn btn-primary btn-block mb-3"
+                        style="background-color: #8064A2">Elimnar</button></center>
             </form>
         </div>
     </div>
 
-    <div class="collapse multi-collapse" id="ElimnarAlumno" >
+    <div class="collapse multi-collapse" id="ElimnarAlumno">
         <div class="card card-body">
             <form>
                 <center>
@@ -93,7 +94,8 @@
                 <div class="form-outline mb-4">
                     <input type="text" id="registerName" class="form-control" placeholder="Nombre" />
                 </div>
-                <center><button type="submit" class="btn btn-primary btn-block mb-3" style="background-color: #8064A2">Elimnar</button></center>
+                <center><button type="submit" class="btn btn-primary btn-block mb-3"
+                        style="background-color: #8064A2">Elimnar</button></center>
 
             </form>
         </div>
@@ -103,40 +105,37 @@
         <div class="col">
             <div class="collapse multi-collapse" id="AgregarDocente">
                 <div class="card card-body">
-                    <form>
+                    <form action="/administrador" method="post">
                         <center>
                             <h3>Registro de Docentes</h3>
                         </center>
                         <!-- Name input -->
                         <div class="form-outline mb-4">
-                            <input type="text" id="registerName" class="form-control" placeholder="Nombre" />
+                            <input type="text" id="registerName" class="form-control" placeholder="Nombre" name="nombre"
+                                id="nombre" />
                         </div>
 
                         <!-- Username input -->
                         <div class="form-outline mb-4">
-                            <input type="text" id="registerUsername" class="form-control" placeholder="Apellido" />
+                            <input type="text" id="registerUsername" class="form-control" placeholder="Apellido"
+                                name="apellido" id="apellido" />
                         </div>
 
                         <!-- Email input -->
                         <div class="form-outline mb-4">
-                            <input type="email" id="registerEmail" class="form-control" placeholder="Correo" />
+                            <input type="email" id="registerEmail" class="form-control" placeholder="Correo"
+                                name="email" id="email" />
                         </div>
 
                         <!-- Password input -->
                         <div class="form-outline mb-4">
-                            <input type="password" id="registerPassword" class="form-control"
-                                placeholder="Contraseña" />
+                            <input type="password" id="registerPassword" class="form-control" placeholder="Contraseña"
+                                name="contraseña" id="contraseña" />
                         </div>
-
-                        <!-- Repeat Password input -->
-                        <div class="form-outline mb-4">
-                            <input type="password" id="registerRepeatPassword" class="form-control"
-                                placeholder="Repita Contraseña" />
-                        </div>
-
 
                         <!-- Submit button -->
-                        <center><button type="submit" class="btn btn-primary btn-block mb-3" style="background-color: #8064A2">Registrar</button></center>
+                        <center><button type="submit" class="btn btn-primary btn-block mb-3"
+                                style="background-color: #8064A2">Registrar</button></center>
                     </form>
                 </div>
             </div>
@@ -165,12 +164,65 @@
 
 
                         <!-- Submit button -->
-                        <center><button type="submit" class="btn btn-primary btn-block mb-3" style="background-color: #8064A2">Registrar</button></center>
+                        <center><button type="submit" class="btn btn-primary btn-block mb-3"
+                                style="background-color: #8064A2">Registrar</button></center>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <p>
+        <center>
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#Docentes" role="button"
+                aria-expanded="false" aria-controls="Docentes"> Docentes</a>
+        </center>
+    </p>
+
+    <div class="row">
+        <div class="col">
+            <div class="collapse multi-collapse" id="Docentes">
+                <div class="card card-body">
+                    <center>
+                        <h1>Docentes</h1><br><br><br>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width: 80px;">Nombre</th>
+                                    <th scope="col" style="width: 120px;">Apellido</th>
+                                    <th scope="col" style="width: 100px;">Correo</th>
+                                    <th scope="col" style="width: 125px;">Cargo</th>
+                                </tr>
+                            </thead>
+            
+                            <tbody>
+                                {% for i in Personas %}
+                                <form action="" method="POST">
+                                    <tr>
+                                        <td><input selected disabled   type="text" class="form-control" value="{{i.nombre}}" name="nombre"
+                                                style="width: 80px;"></td>
+                                        <td><input selected disabled type="text" class="form-control" value="{{i.apellido}}" name="apellido"
+                                                style="width: 120px;"></td>
+                                        <td><input selected disabled  type="text" class="form-control" value="{{i.correo}}" name="correo"
+                                                style="width: 100px;"></td>
+                                        <td><input selected disabled  type="text" class="form-control" value="{{i.Cargo}}" name="telefono"
+                                                style="width: 125px;"></td>
+                                    </tr>
+                                </form>
+                                {% endfor %}
+                            </tbody>
+            
+                        </table>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div>
+        
+    </div>
+
 
 
 
