@@ -14,7 +14,7 @@ MONGO_BASEDATOS="Escuela"           #nombre de la base de datos
 MONGO_COLLECTION="Personas"           #nombre de la coleccion para la validacion
 cliente=pymongo.MongoClient(MONGO_URI,serverSelectionTimeoutMS=MONGO_TIEMPO_FUERA)
 baseDatos=cliente[MONGO_BASEDATOS]          #asigna el nombre de la bdd a una variable
-coleccionProfesor=baseDatos[MONGO_COLLECTION]      #asigna el nombre de la coleccion a una variable    
+ColeccionPersonas=baseDatos[MONGO_COLLECTION]      #asigna el nombre de la coleccion a una variable    
 #return a list of all collections in your database
 #print(baseDatos.list_collection_names())
 
@@ -31,10 +31,10 @@ def home():
 @app.route('/loginAdmin', methods=['GET','POST'])        
 def loginAdmin():
     if(request.method == "POST"):
-        correo = request.form['email']          #obtencion de correo
+        user = request.form['Usuario']          #obtencion de correo
         contrase = request.form['password']         #obtencion de contraseña
         try:
-            if(coleccionProfesor.find_one({'Correo':correo, 'Contraseña': contrase})):        #compara los datos ingresados con el registro     
+            if(ColeccionPersonas.find_one({'Usuario':user, 'contraseña': contrase, 'Cargo':"Admin"})):        #compara los datos ingresados con el registro     
                 return redirect(url_for('administrador'))  
             else:
                 return redirect(url_for('loginAdmin'))            #si no esta registrado redirecciona a la pagina principal
@@ -52,12 +52,22 @@ def administrador():
         contraseña = request.form['contraseña']
         encripta=generate_password_hash(contraseña)
         dato = {"nombre": nombre, "apellido":  apellido, "correo": correo, "contraseña": encripta, "Cargo":"Docente"}
-        coleccionProfesor.insert_one(dato)
+        ColeccionPersonas.insert_one(dato)
 
     Personas = baseDatos['Personas']
     PersonasReceived = Personas.find()
-    return render_template("layouts/administrador.html", Personas = PersonasReceived)
-    return render_template("layouts/administrador.html")    
+    return render_template("layouts/administrador.html", Personas = PersonasReceived) 
+
+@app.route('/EliminarDocente', methods=['GET','POST'])  
+def EliminarDocente():  
+    if(request.method == "POST"):
+        try:
+            correo = request.form['email']
+            print(correo)
+            ColeccionPersonas.delete_one({"correo": correo})
+        except:
+            return redirect(url_for('administrador'))
+    return redirect(url_for('administrador'))
 
 
 @app.route('/loginDocentes', methods=['GET','POST'])         
@@ -66,7 +76,7 @@ def loginDocentes():
         correo = request.form['email']          #obtencion de correo
         contrase = request.form['password']         #obtencion de contraseña   
         try:
-            dato = coleccionProfesor.find_one({'correo': correo})
+            dato = ColeccionPersonas.find_one({'correo': correo})
             if check_password_hash(dato["contraseña"], contrase ):
                 return redirect(url_for('Niño')) 
             else:
@@ -114,21 +124,10 @@ def test():
 if __name__ == '__main__':
     app.run(debug=True) # Ejecuta la aplicacion
 
-'''@app.route('/loginDocentes', methods=['GET','POST'])         
-def loginDocentes():
 
-    if(request.method == "POST"):
-        correo = request.form['email']          #obtencion de correo
-        contrase = request.form['password']         #obtencion de contraseña           
-        try:
-            if(coleccionProfesor.find_one({'Correo':correo, 'Contraseña': contrase})):        #compara los datos ingresados con el registro
-                    if(preesccolar=="Preescolar 1"):        #si el preescolar es el curso 1:
-                        return redirect(url_for('Niño'))        #ingresa a la pagina niños
-                    else:
-                        return redirect(url_for('NiñosB'))  #si no al otro curso
-            else:
-                return redirect(url_for('loginDocentes'))            #si no esta registrado el profesor redirecciona a la pagina principal
-        except:
-            return redirect(url_for('loginDocentes'))             #en caso de error redirecciona a la pagina principal
-   
+
+#DATOS ADMIN PAGINA
+'''
+dato = {"Usuario": "admin", "contraseña": "admin", "Cargo":"Admin"}
+ColeccionPersonas.insert_one(dato)    
 '''

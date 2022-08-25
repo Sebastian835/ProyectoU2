@@ -70,13 +70,13 @@
     </p>
     <div class="collapse multi-collapse" id="ElimnarDocente">
         <div class="card card-body">
-            <form>
+            <form action="/EliminarDocente" method="post">
                 <center>
                     <h3>Elimnar de Docentes</h3>
                 </center>
                 <!-- Name input -->
                 <div class="form-outline mb-4">
-                    <input type="text" id="registerName" class="form-control" placeholder="Nombre" />
+                    <input type="email" id="registerName" class="form-control" placeholder="Correo" id="email" name="email" />
                 </div>
                 <center><button type="submit" class="btn btn-primary btn-block mb-3"
                         style="background-color: #8064A2">Elimnar</button></center>
