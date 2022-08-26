@@ -53,18 +53,18 @@
     <br>
     <p>
         <center>
-            <a class="btn btn-primary" data-bs-toggle="collapse" href="#AgregarDocente" role="button"
+            <a class="btn btn-success" data-bs-toggle="collapse" href="#AgregarDocente" role="button"
                 aria-expanded="false" aria-controls="AgregarDocente">Registro Docentes</a>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#AgregarAlumno"
+            <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#AgregarAlumno"
                 aria-expanded="false" aria-controls="AgregarAlumno">Registro Alumnos</button>
         </center>
     </p>
 
     <p>
         <center>
-            <a class="btn btn-primary" data-bs-toggle="collapse" href="#ElimnarDocente" role="button"
+            <a class="btn btn-danger" data-bs-toggle="collapse" href="#ElimnarDocente" role="button"
                 aria-expanded="false" aria-controls="ElimnarDocente">Elimnar Docentes</a>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#ElimnarAlumno"
+            <button class="btn btn-danger" type="button" data-bs-toggle="collapse" data-bs-target="#ElimnarAlumno"
                 aria-expanded="false" aria-controls="ElimnarAlumno">Elimnar Alumnos</button>
         </center>
     </p>
@@ -76,7 +76,8 @@
                 </center>
                 <!-- Name input -->
                 <div class="form-outline mb-4">
-                    <input type="email" id="registerName" class="form-control" placeholder="Correo" id="email" name="email" />
+                    <input type="email" id="registerName" class="form-control" placeholder="Correo" id="email"
+                        name="email" />
                 </div>
                 <center><button type="submit" class="btn btn-primary btn-block mb-3"
                         style="background-color: #8064A2">Elimnar</button></center>
@@ -86,17 +87,16 @@
 
     <div class="collapse multi-collapse" id="ElimnarAlumno">
         <div class="card card-body">
-            <form>
+            <form action="/EliminarNiño" method="post">
                 <center>
                     <h3>Elimnar de Alumno</h3>
                 </center>
                 <!-- Name input -->
                 <div class="form-outline mb-4">
-                    <input type="text" id="registerName" class="form-control" placeholder="Nombre" />
+                    <input type="text" id="registerName" class="form-control" placeholder="Nombre"  name="nombre"/>
                 </div>
                 <center><button type="submit" class="btn btn-primary btn-block mb-3"
                         style="background-color: #8064A2">Elimnar</button></center>
-
             </form>
         </div>
     </div>
@@ -132,7 +132,17 @@
                             <input type="password" id="registerPassword" class="form-control" placeholder="Contraseña"
                                 name="contraseña" id="contraseña" />
                         </div>
-
+                        <center>
+                            <input list="roles" type="text"  placeholder="Roles" class="form-control" name="DocenteRol" />
+                            <datalist id="roles" name="roles_">
+                                {% for i in Roles %}
+                                <select name="Roles">
+                                    <option value={{i.Rol}}>{{ i.Rol }}</option>
+                                </select>
+                                {% endfor %}
+                            </datalist>
+                        </center>
+                        <br>
                         <!-- Submit button -->
                         <center><button type="submit" class="btn btn-primary btn-block mb-3"
                                 style="background-color: #8064A2">Registrar</button></center>
@@ -143,26 +153,71 @@
         <div class="col">
             <div class="collapse multi-collapse" id="AgregarAlumno">
                 <div class="card card-body">
-                    <form>
+                    <form action="/RegistrarNiño" method="post">
                         <center>
                             <h3>Registro de Niños</h3>
                         </center>
                         <!-- Name input -->
                         <div class="form-outline mb-4">
-                            <input type="text" id="registerName" class="form-control" placeholder="Nombre" />
+                            <input type="text" id="registerName" class="form-control" placeholder="Nombre" name="Nombre" />
                         </div>
 
                         <!-- Username input -->
                         <div class="form-outline mb-4">
-                            <input type="text" id="registerUsername" class="form-control" placeholder="Apellido" />
+                            <input type="text" id="registerUsername" class="form-control" placeholder="Apellido" name="Apellido" />
                         </div>
 
                         <!-- Repeat Password input -->
                         <div class="form-outline mb-4">
-                            <input type="date" id="registerRepeatPassword" class="form-control" placeholder="Feha" />
+                            <input type="date" id="registerRepeatPassword" class="form-control" placeholder="Feha" name="Fecha"/>
                         </div>
 
+                        <div>
+                            <input list="CursoNombre" type="text"  placeholder="Curso" class="form-control" name="NombreCurso_" />
+                            <datalist id="CursoNombre" name="CursoNombre">
+                                {% for i in Curso %}
+                                <select name="CursoNombre">
+                                    <option value="{{i.Curso}}">{{ i.Curso }}</option>
+                                </select>
+                                {% endfor %}
+                            </datalist>
+                        </div>
+                        <br>
+                        <!-- Submit button -->
+                        <center><button type="submit" class="btn btn-primary btn-block mb-3" style="background-color: #8064A2">Registrar</button></center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <p>
+        <center>
+            <a class="btn btn-warning" data-bs-toggle="collapse" href="#Cursos" role="button" aria-expanded="false"
+                aria-controls="Curso">Crear Curso</a>
+        </center>
+    </p>
+    <div class="row">
+        <div class="col">
+            <div class="collapse multi-collapse" id="Cursos">
+                <div class="card card-body">
+                    <form action="/CrearCurso" method="post">
+                        <!-- Name input -->
+                        <div class="form-outline mb-4">
+                            <input type="text" id="registerName" class="form-control" placeholder="Nombre" name="nombre"
+                                id="nombre" />
+                        </div>
+                        <div>
+                            <input list="Docente" type="text"  placeholder="Docente" class="form-control" name="NombreDocente" />
+                            <datalist id="Docente" name="Docente_">
+                                {% for i in Docentes %}
+                                <select name="Docente">
+                                    <option value="{{i.nombre}}">{{ i.nombre }}</option>
+                                </select>
+                                {% endfor %}
+                            </datalist>
+                        </div>
+                        <br>
                         <!-- Submit button -->
                         <center><button type="submit" class="btn btn-primary btn-block mb-3"
                                 style="background-color: #8064A2">Registrar</button></center>
@@ -171,46 +226,48 @@
             </div>
         </div>
     </div>
+
+
+
+
     <p>
         <center>
-            <a class="btn btn-primary" data-bs-toggle="collapse" href="#Docentes" role="button"
-                aria-expanded="false" aria-controls="Docentes"> Docentes</a>
+            <a class="btn btn-info" data-bs-toggle="collapse" href="#Docentes" role="button" aria-expanded="false"
+                aria-controls="Docentes"> Docentes</a>
         </center>
     </p>
-
     <div class="row">
         <div class="col">
             <div class="collapse multi-collapse" id="Docentes">
                 <div class="card card-body">
                     <center>
-                        <h1>Docentes</h1><br><br><br>
                         <table class="table table-striped">
                             <thead>
-                                <tr>
+                                <form action="" method="POST">
                                     <th scope="col" style="width: 80px;">Nombre</th>
                                     <th scope="col" style="width: 120px;">Apellido</th>
                                     <th scope="col" style="width: 100px;">Correo</th>
-                                    <th scope="col" style="width: 125px;">Cargo</th>
-                                </tr>
+                                    <th scope="col" style="width: 125px;">Rol</th>
+                                </form>
                             </thead>
-            
+
                             <tbody>
-                                {% for i in Personas %}
+                                {% for i in Usuarios %}
                                 <form action="" method="POST">
                                     <tr>
-                                        <td><input selected disabled   type="text" class="form-control" value="{{i.nombre}}" name="nombre"
-                                                style="width: 80px;"></td>
-                                        <td><input selected disabled type="text" class="form-control" value="{{i.apellido}}" name="apellido"
-                                                style="width: 120px;"></td>
-                                        <td><input selected disabled  type="text" class="form-control" value="{{i.correo}}" name="correo"
-                                                style="width: 100px;"></td>
-                                        <td><input selected disabled  type="text" class="form-control" value="{{i.Cargo}}" name="telefono"
-                                                style="width: 125px;"></td>
+                                        <td><input selected disabled type="text" class="form-control"
+                                                value="{{i.nombre}}" name="nombre" style="width: 200px;"></td>
+                                        <td><input selected disabled type="text" class="form-control"
+                                                value="{{i.apellido}}" name="apellido" style="width: 200px;"></td>
+                                        <td><input selected disabled type="text" class="form-control"
+                                                value="{{i.correo}}" name="correo" style="width: 200px;"></td>
+                                        <td><input selected disabled type="text" class="form-control" value="{{i.Rol}}"
+                                                name="rol" style="width: 150px;"></td>
                                     </tr>
                                 </form>
                                 {% endfor %}
                             </tbody>
-            
+
                         </table>
                     </center>
                 </div>
@@ -219,13 +276,88 @@
     </div>
 
 
-    <div>
-        
+    <p>
+        <center>
+            <a class="btn btn-info" data-bs-toggle="collapse" href="#Estudiantes" role="button" aria-expanded="false"
+                aria-controls="Docentes"> Estudiantes</a>
+        </center>
+    </p>
+    <div class="row">
+        <div class="col">
+            <div class="collapse multi-collapse" id="Estudiantes">
+                <div class="card card-body">
+                    <center>
+                        <table class="table table-striped">
+                            <thead>
+                                <form action="" method="POST">
+                                    <th scope="col" style="width: 80px;">Nombre</th>
+                                    <th scope="col" style="width: 120px;">Apellido</th>
+                                    <th scope="col" style="width: 100px;">Fecha Nacimiento</th>
+                                    <th scope="col" style="width: 125px;">Rol</th>
+                                </form>
+                            </thead>
+
+                            <tbody>
+                                {% for i in Estudiantes %}
+                                <form action="" method="POST">
+                                    <tr>
+                                        <td><input selected disabled type="text" class="form-control"
+                                                value="{{i.Nombre}}" name="nombre" style="width: 200px;"></td>
+                                        <td><input selected disabled type="text" class="form-control"
+                                                value="{{i.Apellido}}" name="apellido" style="width: 200px;"></td>
+                                        <td><input selected disabled type="text" class="form-control"
+                                                value="{{i.Fecha_Nacimiento}}" name="correo" style="width: 200px;"></td>
+                                        <td><input selected disabled type="text" class="form-control" value="{{i.Rol}}"
+                                                name="rol" style="width: 150px;"></td>
+                                    </tr>
+                                </form>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </center>
+                </div>
+            </div>
+        </div>
     </div>
 
 
+    <p>
+        <center>
+            <a class="btn btn-dark" data-bs-toggle="collapse" href="#CursosCreados" role="button" aria-expanded="false"
+                aria-controls="Docentes"> Cursos</a>
+        </center>
+    </p>
+    <div class="row">
+        <div class="col">
+            <div class="collapse multi-collapse" id="CursosCreados">
+                <div class="card card-body">
+                    <center>
+                        <table class="table table-striped">
+                            <thead>
+                                <form action="" method="POST">
+                                    <th scope="col" style="width: 80px;">Curso</th>
+                                    <th scope="col" style="width: 120px;">Docente</th>
+                                </form>
+                            </thead>
 
+                            <tbody>
+                                {% for i in CursosMuestra %}
+                                <form action="" method="POST">
+                                    <tr>
+                                        <td><input selected disabled type="text" class="form-control"
+                                                value="{{i.Curso}}" name="nombre" style="width: 200px;"></td>
+                                        <td><input selected disabled type="text" class="form-control"
+                                                value="{{i.Docente}}" name="apellido" style="width: 200px;"></td>
+                                </form>
+                                {% endfor %}
+                            </tbody>
 
+                        </table>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </body>
