@@ -1,3 +1,4 @@
+from xml.dom.minidom import Identified
 from flask import Flask, render_template, request, redirect, url_for                    #LIBRERIAS
 import os                                           #importacón de librería os
 import pymongo          #libreria para la conexion con mongo
@@ -11,12 +12,11 @@ MONGO_TIEMPO_FUERA=1000
 MONGO_URI="mongodb://"+MONGO_HOST+":"+MONGO_PUERTO+"/"          #concatenacion para la conexcion del mongo
 
 MONGO_BASEDATOS="Escuela"           #nombre de la base de datos
-MONGO_COLLECTION="Personas"           #nombre de la coleccion para la validacion
+MONGO_COLLECTION="Usuarios"           #nombre de la coleccion para la validacion
 cliente=pymongo.MongoClient(MONGO_URI,serverSelectionTimeoutMS=MONGO_TIEMPO_FUERA)
 baseDatos=cliente[MONGO_BASEDATOS]          #asigna el nombre de la bdd a una variable
-ColeccionPersonas=baseDatos[MONGO_COLLECTION]      #asigna el nombre de la coleccion a una variable    
-#return a list of all collections in your database
-#print(baseDatos.list_collection_names())
+ColeccionUsuarios=baseDatos[MONGO_COLLECTION]      #asigna el nombre de la coleccion a una variable    
+
 
 # Inicializar la aplicacion
 app = Flask(__name__, template_folder='templates')              #indica la carpte de los templates
@@ -34,7 +34,7 @@ def loginAdmin():
         user = request.form['Usuario']          #obtencion de correo
         contrase = request.form['password']         #obtencion de contraseña
         try:
-            if(ColeccionPersonas.find_one({'Usuario':user, 'Contraseña': contrase, 'Rol':"Admin"})):        #compara los datos ingresados con el registro     
+            if(ColeccionUsuarios.find_one({'Usuario':user, 'Contraseña': contrase, 'Rol':"Admin"})):        #compara los datos ingresados con el registro     
                 return redirect(url_for('administrador'))  
             else:
                 return redirect(url_for('loginAdmin'))            #si no esta registrado redirecciona a la pagina principal
@@ -52,14 +52,19 @@ def administrador():
         contraseña = request.form['contraseña']
         rol = request.form['DocenteRol']
         encripta=generate_password_hash(contraseña)
-        dato = {"nombre": nombre, "apellido":  apellido, "correo": correo, "contraseña": encripta, "Rol": rol}
-        ColeccionPersonas.insert_one(dato)
 
-    Docentes = baseDatos['Personas']
-    DocentesReceived = Docentes.find()
+        Roles = baseDatos['Roles']
+        RolesReceived = Roles.find_one({'Rol':rol})
+        RolAsigna=RolesReceived["Rol_id"]
 
-    Usuarios = baseDatos['Personas']
-    UsuariosReceived = Usuarios.find()
+        dato = {"Nombre": nombre, "Apellido":  apellido, "correo": correo, "contraseña": encripta, "Rol": RolAsigna, "Activo": "1"}
+        ColeccionUsuarios.insert_one(dato)
+
+    Docentes = baseDatos['Usuarios']
+    DocentesReceived = Docentes.find({'Rol':'3','Activo':'1'})
+
+    Usuarios = baseDatos['Usuarios']
+    UsuariosReceived = Usuarios.find({'Rol':'3', 'Activo':'1'})
 
     Roles = baseDatos['Roles']
     RolesReceived = Roles.find()
@@ -73,7 +78,7 @@ def administrador():
     Estudiantes = baseDatos['Estudiantes']
     EstudiantesReceived = Estudiantes.find()
 
-    return render_template("layouts/administrador.html", Docentes = DocentesReceived, Roles = RolesReceived, Usuarios = UsuariosReceived,
+    return render_template("layouts/administrador.html", Docentes = DocentesReceived, Roles = RolesReceived, Usuarios2 = UsuariosReceived,
     Curso = CursosReceived, CursosMuestra=CursosMuestraReceived, Estudiantes = EstudiantesReceived) 
 
 
@@ -83,7 +88,8 @@ def EliminarDocente():
         try:
             correo = request.form['email']
             print(correo)
-            ColeccionPersonas.delete_one({"correo": correo})
+            ColeccionUsuarios.update_one({"correo":correo},{"$set":{"Activo":"0"}})
+           #ColeccionUsuarios.delete_one({"correo": correo})
         except:
             return redirect(url_for('administrador'))
     return redirect(url_for('administrador'))
@@ -95,7 +101,7 @@ def loginDocentes():
         correo = request.form['email']          #obtencion de correo
         contrase = request.form['password']         #obtencion de contraseña   
         try:
-            dato = ColeccionPersonas.find_one({'correo': correo})
+            dato = ColeccionUsuarios.find_one({'correo': correo})
             if check_password_hash(dato["contraseña"], contrase ):
                 return redirect(url_for('Niño')) 
             else:
@@ -118,10 +124,30 @@ def CrearCurso():
 
         dato = {"Curso": nombreCurso, "Docente":  nombreDocente}
         ColeccionCursos.insert_one(dato)
-        return redirect(url_for('loginDocentes'))
+        return redirect(url_for('administrador'))
 
     return render_template("layouts/administrador.html" ) 
 
+
+@app.route('/CrearAula', methods=['GET','POST'])       
+def CrearAula():  
+    if(request.method == "POST"):
+        Identificacion = request.form['nombre']          #obtencion de correo
+
+        MONGO_COLLECTION="Aulas"           #nombre de la coleccion para la validacion
+        cliente=pymongo.MongoClient(MONGO_URI,serverSelectionTimeoutMS=MONGO_TIEMPO_FUERA)
+        baseDatos=cliente[MONGO_BASEDATOS]          #asigna el nombre de la bdd a una variable
+        ColeccionAulas=baseDatos[MONGO_COLLECTION] 
+        Aulas = ColeccionAulas.find()
+        print(Aulas)
+        for i in Aulas:
+            print("Hola")
+            print(i)
+        #dato = {"Identificacion":  Identificacion}
+        #ColeccionAulas.insert_one(dato)
+        return redirect(url_for('administrador'))
+
+    return render_template("layouts/administrador.html" ) 
 
 @app.route('/RegistrarNiño', methods=['GET','POST'])       
 def RegistrarNiño():  
@@ -201,7 +227,7 @@ if __name__ == '__main__':
 #DATOS ADMIN PAGINA
 '''
 dato = {"Usuario": "@Admin", "Contraseña": "@Admin", "Rol":"Admin"}
-ColeccionPersonas.insert_one(dato)    
+ColeccionUsuarios.insert_one(dato)    
 '''
 
 #DATOS ROLES
