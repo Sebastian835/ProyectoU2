@@ -33,8 +33,10 @@ def loginAdmin():
     if(request.method == "POST"):
         user = request.form['Usuario']          #obtencion de correo
         contrase = request.form['password']         #obtencion de contraseña
+        print(user)
+        print(contrase)
         try:
-            if(ColeccionUsuarios.find_one({'Usuario':user, 'Contraseña': contrase, 'Rol':"Admin"})):        #compara los datos ingresados con el registro     
+            if(ColeccionUsuarios.find_one({'Nombre':user, 'Contrasena': contrase, 'Rol':"1"})):        #compara los datos ingresados con el registro     
                 return redirect(url_for('administrador'))  
             else:
                 return redirect(url_for('loginAdmin'))            #si no esta registrado redirecciona a la pagina principal
@@ -78,8 +80,11 @@ def administrador():
     Estudiantes = baseDatos['Estudiantes']
     EstudiantesReceived = Estudiantes.find()
 
+    Aulas = baseDatos['Aulas']
+    AulaReceived = Aulas.find({'Activo':'1'})
+
     return render_template("layouts/administrador.html", Docentes = DocentesReceived, Roles = RolesReceived, Usuarios2 = UsuariosReceived,
-    Curso = CursosReceived, CursosMuestra=CursosMuestraReceived, Estudiantes = EstudiantesReceived) 
+    Curso = CursosReceived, CursosMuestra=CursosMuestraReceived, Estudiantes = EstudiantesReceived, Aulas = AulaReceived) 
 
 
 @app.route('/EliminarDocente', methods=['GET','POST'])  
@@ -138,13 +143,14 @@ def CrearAula():
         cliente=pymongo.MongoClient(MONGO_URI,serverSelectionTimeoutMS=MONGO_TIEMPO_FUERA)
         baseDatos=cliente[MONGO_BASEDATOS]          #asigna el nombre de la bdd a una variable
         ColeccionAulas=baseDatos[MONGO_COLLECTION] 
+        i=1
         Aulas = ColeccionAulas.find()
-        print(Aulas)
-        for i in Aulas:
-            print("Hola")
-            print(i)
-        #dato = {"Identificacion":  Identificacion}
-        #ColeccionAulas.insert_one(dato)
+        for x in Aulas:
+            i=i+1
+
+        dato = {"Aula_id": i ,"Aula": Identificacion, "Activo": "1"}
+        ColeccionAulas.insert_one(dato)
+
         return redirect(url_for('administrador'))
 
     return render_template("layouts/administrador.html" ) 
@@ -181,6 +187,9 @@ def EliminarNiño():
         except:
             return redirect(url_for('administrador'))
     return redirect(url_for('administrador'))
+
+
+
 
 
 @app.route('/Niño' , methods=['GET','POST'])        #ruta de la pagina niño, tiene entrada de datos por medio del metodo post
@@ -221,26 +230,3 @@ def test():
 if __name__ == '__main__':
     app.run(debug=True) # Ejecuta la aplicacion
 
-
-
-
-#DATOS ADMIN PAGINA
-'''
-dato = {"Usuario": "@Admin", "Contraseña": "@Admin", "Rol":"Admin"}
-ColeccionUsuarios.insert_one(dato)    
-'''
-
-#DATOS ROLES
-'''
-MONGO_COLLECTION="Roles"           #nombre de la coleccion para la validacion
-cliente=pymongo.MongoClient(MONGO_URI,serverSelectionTimeoutMS=MONGO_TIEMPO_FUERA)
-baseDatos=cliente[MONGO_BASEDATOS]          #asigna el nombre de la bdd a una variable
-ColeccionRoles=baseDatos[MONGO_COLLECTION] 
-
-dato = {"Rol": "Admin"}
-dato1 = {"Rol": "Estudiante"}
-dato2 = {"Rol": "Docente"}
-ColeccionRoles.insert_one(dato)   
-ColeccionRoles.insert_one(dato1)   
-ColeccionRoles.insert_one(dato2)   
-'''
